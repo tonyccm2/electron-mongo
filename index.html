@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutoría</title>
+    <link rel="stylesheet" href="./bootstrap.min.css">
+</head>
+<body>
+    <h1 class="p-2">Sistema de tutoría</h1>
+    <main class="container-fluid">
+        <div class="col-md-6 p-2 my-auto align-center">
+            <form id="formLogin" class="card card-body">
+                <h4>INICIAR SESIÓN DOCENTES</h4>
+                <p>Codigo</p>
+                <div class="form-group p-1">
+                    <input 
+                        type="text"
+                        id="codigo"
+                        placeholder="Codigo"
+                        class="form-control"
+                        >
+                </div>
+                <p>Contraseña</p>
+                <div class="form-group p-1">
+                    <input 
+                        type="password"
+                        id="password"
+                        placeholder="Contraseña"
+                        class="form-control"
+                        >
+                </div>
+                <button id="btn-login" class="btn btn-primary p-1" type="submit">
+                    Ingresar
+                </button>
+            </form>
+            <div>
+                <script src="provider/app.js""></script>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
