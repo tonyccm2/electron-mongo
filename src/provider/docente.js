@@ -77,7 +77,7 @@ ipcRenderer.on('DocenteEliminado',(e,args) =>{
     const docenteEliminado = JSON.parse(args);
     newdocentes = docentes.filter(p =>{
         return p._id !== docenteEliminado._id;
-    })
+    });
     docentes = newdocentes;
     renderAlumnos(docentes);
 });

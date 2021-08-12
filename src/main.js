@@ -18,7 +18,7 @@ function createWindow(){
             enableRemoteModule: true,
         }
     })
-    win.loadFile('src/index.html')
+    win.loadFile('git/src/ui/main/index.html')
     const mainMenu = Menu.buildFromTemplate(templateMenu);
     Menu.setApplicationMenu(mainMenu);
 }
@@ -65,7 +65,7 @@ function createCrudAlumno(){
             enableRemoteModule: true,
         }
     })
-    CrudAlumnoWindow.loadFile('src/ui/alumno.html')
+    CrudAlumnoWindow.loadFile('git/src/ui/alumno/alumno.html')
 }
 function createCrudDocente(){
     CrudDocenteWindow = new BrowserWindow({
@@ -78,7 +78,7 @@ function createCrudDocente(){
             enableRemoteModule: true,
         }
     })
-    CrudDocenteWindow.loadFile('src/ui/docente.html')
+    CrudDocenteWindow.loadFile('git/src/ui/docente/docente.html')
 }
 
 function createWindowTutorandos(){
@@ -92,21 +92,30 @@ function createWindowTutorandos(){
             enableRemoteModule: true,
         }
     })
-    ListaTutorandos.loadFile('src/ui/tutorandos.html')
+    ListaTutorandos.loadFile('git/src/ui/tutorandos/tutorandos.html')
 }
 // eventos crud para persona
 ipcMain.on('login', async(e,args) => {
     try {
-        const Buscar = await docente.find({'codigo': args.codigo})
-        if(Buscar[0].password === args.password){
-            Tutor = Buscar[0];
-            createWindowTutorandos();
+        if(args.codigo !== ''){
+            const Buscar = await docente.find({'codigo': args.codigo})
+            if(Buscar.length === 0){
+                e.reply('loginErrorCodigoNoExiste');
+            }else{
+                if(Buscar[0].password === args.password){
+                    Tutor = Buscar[0];
+                    createWindowTutorandos();
+                }else{
+                    e.reply('loginErrorPassword');
+                }
+            }
         }else{
-            e.reply('longinError');
+            e.reply('loginErrorCodigoVacio');
         }
+        
     } catch (error) {
-        e.reply('longinError');
-        console.log(error);
+        e.reply('loginError');
+        console.log('Error encontrado: ',error);
     }
     
 
@@ -137,7 +146,7 @@ ipcMain.on('obtenerAlumnosDeDocente', async (e) => {
 
 ipcMain.on('eliminarAlumno', async (e,args) => {
     const alumnoEliminado = await alumno.findByIdAndDelete(args);
-    e.reply('alumnoEliminado',JSON.stringify(alumnoEliminado));
+    e.reply('AlumnoEliminado',JSON.stringify(alumnoEliminado));
 });
 
 ipcMain.on('editarAlumno', async (e,args) =>{
@@ -150,6 +159,7 @@ ipcMain.on('editarAlumno', async (e,args) =>{
     },{new: true});
     e.reply('alumnoEditado',JSON.stringify(alumnoEditado));
 });
+
 //eventos crud para docente
 
 ipcMain.on('nuevoDocente', async(e,args) => {
@@ -170,7 +180,7 @@ ipcMain.on('buscarDocente', async (e,args) => {
 
 ipcMain.on('eliminarDocente', async (e,args) => {
     const docenteEliminado = await docente.findByIdAndDelete(args);
-    e.reply('docenteEliminado',JSON.stringify(docenteEliminado));
+    e.reply('DocenteEliminado',JSON.stringify(docenteEliminado));
 });
 
 ipcMain.on('editarDocente', async (e,args) =>{

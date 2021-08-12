@@ -72,11 +72,11 @@ ipcRenderer.on('AlumnoEliminado',(e,args) =>{
     const alumnoEliminado = JSON.parse(args);
     newalumnos = alumnos.filter(p =>{
         return p._id !== alumnoEliminado._id;
-    })
+    });
     alumnos = newalumnos;
-    console.log("renderizando...");
     renderAlumnos(alumnos);
 });
+
 
 ipcRenderer.on('alumnoEditado', (e,args) =>{
     const alumnoEditado = JSON.parse(args);

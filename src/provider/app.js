@@ -6,6 +6,7 @@ const { ipcRenderer } = require('electron')
 
 let personas = [];
 
+//evento para login de tutor
 formLogin.addEventListener('submit',e => {
     e.preventDefault();
     const docente = {
@@ -13,12 +14,20 @@ formLogin.addEventListener('submit',e => {
         password: formPassword.value,
     }
     ipcRenderer.send('login',docente);
-    console.log(docente);
     formLogin.reset();
 });
 
 ipcRenderer.on('loginError',(e) =>{
-    alert('Error de contraseña');
+    alert('Error al intentar iniciar sesión');
+});
+ipcRenderer.on('loginErrorPassword',(e) =>{
+    alert('Error: la contraseña es incorrecta');
+});
+ipcRenderer.on('loginErrorCodigoVacio',(e) =>{
+    alert('Error: el código no puede estar vacío');
+});
+ipcRenderer.on('loginErrorCodigoNoExiste',(e) =>{
+    alert('Error: el código no existe');
 });
 
 
